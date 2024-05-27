@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Net;
 
 namespace Hangman
 {
@@ -70,6 +71,7 @@ namespace Hangman
             DrawBodyPart(BodyParts.Right_Arm);
             DrawBodyPart(BodyParts.Left_Leg);
             DrawBodyPart(BodyParts.Right_Leg);
+            MessageBox.Show(GetRandomWord());
         }
 
         // Method to draw a specific body part of the hangman
@@ -104,6 +106,28 @@ namespace Hangman
                 g.DrawLine(p, new Point(60, 170), new Point(90, 190));
             }
 
+        }
+
+        //this will generate random word from the wordlist link
+        string GetRandomWord()
+        {
+            /*provides common method for sending data and receiving data from a
+            resource identified by a Uniform Resource Identifier*/
+            WebClient wc = new WebClient();
+
+            /* this calls the DownloadString method of the WebClient instance
+             * 'wc' to download the content from the URL*/
+            string wordList = wc.DownloadString("https://www.dictionary-thesaurus.com/wordlists/Adjectives%28929%29.txt");
+            
+            /*splits the wordlist string into an array so each word in the
+            list is a separate line */
+            string[] words = wordList.Split('\n');
+
+            //creates a new random class
+            Random random = new Random();
+
+            //returns randomly selcted word from the words array. 
+            return words[random.Next(0, words.Length - 1)];
         }
 
         // Event handler for the Form's Shown event
