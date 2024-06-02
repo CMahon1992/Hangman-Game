@@ -15,16 +15,20 @@ namespace Hangman
     {
         //This boolean will track whether the post has been drawn
         private bool postDrawn = false;
+        private bool bodyPartsDrawn = false;
+        string word = "";
+        List<Label> labels = new List<Label>();
+        int amount = 0;
         public Form1()
         {
             InitializeComponent();
             //Subscribe to the Paint event of panel1
-            panel1.Paint += Panel1_Paint;
+            //panel1.Paint += Panel1_Paint;
         }
 
         //enum represent the hangman body parts
         enum BodyParts
-        { 
+        {
             Head,
             Body,
             Right_Arm,
@@ -44,6 +48,8 @@ namespace Hangman
                 DrawingPost(e.Graphics);
                 postDrawn = true;
             }
+
+
         }
 
         // Method to draw the post
@@ -65,13 +71,15 @@ namespace Hangman
 
             //g.DrawLine(p, new Point(60, 0), new Point(60, 50)) = determines the straigtness and the length of the horizontal post to hangman head
             g.DrawLine(p, new Point(60, 0), new Point(60, 50));
+
+
             DrawBodyPart(BodyParts.Head);
             DrawBodyPart(BodyParts.Body);
             DrawBodyPart(BodyParts.Left_Arm);
             DrawBodyPart(BodyParts.Right_Arm);
             DrawBodyPart(BodyParts.Left_Leg);
             DrawBodyPart(BodyParts.Right_Leg);
-            MessageBox.Show(GetRandomWord());
+            // MessageBox.Show(GetRandomWord());
         }
 
         // Method to draw a specific body part of the hangman
@@ -81,10 +89,10 @@ namespace Hangman
             Pen p = new Pen(Color.Purple, 5);
             if (bp == BodyParts.Head)
                 g.DrawEllipse(p, 40, 50, 40, 40);
-            
+
             else if (bp == BodyParts.Body)
             {
-                g.DrawLine(p, new Point (60, 90), new Point(60,173));
+                g.DrawLine(p, new Point(60, 90), new Point(60, 173));
             }
             else if (bp == BodyParts.Left_Arm)
             {
@@ -96,16 +104,38 @@ namespace Hangman
                 g.DrawLine(p, new Point(60, 100), new Point(90, 120));
             }
 
-            else if (bp  == BodyParts.Left_Leg)
+            else if (bp == BodyParts.Left_Leg)
             {
                 g.DrawLine(p, new Point(60, 170), new Point(30, 190));
             }
 
-            else if (bp == BodyParts.Right_Leg) 
+            else if (bp == BodyParts.Right_Leg)
             {
                 g.DrawLine(p, new Point(60, 170), new Point(90, 190));
             }
 
+        }
+
+
+        //make labels in the groupbox where letters will appear
+
+        void MakeLabels()
+        {
+            word = GetRandomWord();
+            char[] chars = word.ToCharArray();
+            int between = 330 / chars.Length - 1;
+            int x = 10; // Initial X position
+            for (int i = 0; i < chars.Length - 1; i++) // Change chars.Length - 1 to chars.Length
+            {
+                labels.Add(new Label());
+                labels[i].Location = new Point(x, 80); // Use x for the X position
+                labels[i].Text = "_";
+                labels[i].Parent = groupBox2;
+                labels[i].BringToFront();
+                labels[i].CreateControl();
+                x += between + 20; // Increment x by the gap between labels and an additional offset
+            }
+            label1.Text = "Word Length: " + (chars.Length - 1).ToString();
         }
 
         //this will generate random word from the wordlist link
@@ -118,16 +148,16 @@ namespace Hangman
             /* this calls the DownloadString method of the WebClient instance
              * 'wc' to download the content from the URL*/
             string wordList = wc.DownloadString("https://www.dictionary-thesaurus.com/wordlists/Adjectives%28929%29.txt");
-            
+
             /*splits the wordlist string into an array so each word in the
             list is a separate line */
             string[] words = wordList.Split('\n');
 
             //creates a new random class
-            Random random = new Random();
+            Random ran = new Random();
 
             //returns randomly selcted word from the words array. 
-            return words[random.Next(0, words.Length - 1)];
+            return words[ran.Next(0, words.Length - 1)];
         }
 
         // Event handler for the Form's Shown event
@@ -138,6 +168,43 @@ namespace Hangman
         }
 
         private void Form1_Load(object sender, EventArgs e)
+        {
+            MakeLabels();
+
+        }
+
+        //matching a letter with randomly generated word
+        private void button1_Click(object sender, EventArgs e)
+        {
+            char letter = textBox1.Text.ToLower().ToCharArray()[0];
+            if (!char.IsLetter(letter))
+            {
+                MessageBox.Show("You can only submit letters!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
+            if (word.Contains(letter))
+            {
+                char[] letters = word.ToCharArray();
+                for (int i = 0; i < letters.Length; i++)
+                {
+                    if (letters[i] == letter)
+                        labels[i].Text = letter.ToString();
+                }
+            }
+
+            else
+            {
+                MessageBox.Show("The letter that you guessed isn't in the word!", "Sorry");
+                label2.Text += " " + letter.ToString() + ",";
+                DrawBodyPart((BodyParts)amount);
+                amount++;
+
+            }
+        }
+
+        private void label2_Click(object sender, EventArgs e)
         {
 
         }

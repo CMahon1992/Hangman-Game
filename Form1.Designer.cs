@@ -29,14 +29,15 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
-            groupBox2 = new GroupBox();
-            groupBox3 = new GroupBox();
             panel1 = new Panel();
-            button1 = new Button();
-            button2 = new Button();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
+            groupBox2 = new GroupBox();
             label1 = new Label();
+            groupBox3 = new GroupBox();
+            textBox2 = new TextBox();
+            textBox1 = new TextBox();
+            button2 = new Button();
+            button1 = new Button();
+            label2 = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -51,14 +52,33 @@
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             // 
+            // panel1
+            // 
+            panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(3, 27);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(243, 356);
+            panel1.TabIndex = 0;
+            // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(label2);
             groupBox2.Controls.Add(label1);
             groupBox2.Location = new Point(12, 12);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(513, 257);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(341, 229);
+            label1.Name = "label1";
+            label1.Size = new Size(119, 25);
+            label1.TabIndex = 0;
+            label1.Text = "Word Length:";
             // 
             // groupBox3
             // 
@@ -72,23 +92,20 @@
             groupBox3.TabIndex = 2;
             groupBox3.TabStop = false;
             // 
-            // panel1
+            // textBox2
             // 
-            panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(3, 27);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(243, 356);
-            panel1.TabIndex = 0;
+            textBox2.Location = new Point(162, 73);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(150, 31);
+            textBox2.TabIndex = 3;
             // 
-            // button1
+            // textBox1
             // 
-            button1.Location = new Point(6, 30);
-            button1.Name = "button1";
-            button1.Size = new Size(144, 34);
-            button1.TabIndex = 0;
-            button1.Text = "Submit Letter";
-            button1.UseVisualStyleBackColor = true;
+            textBox1.Location = new Point(162, 30);
+            textBox1.MaxLength = 1;
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(33, 31);
+            textBox1.TabIndex = 2;
             // 
             // button2
             // 
@@ -99,29 +116,25 @@
             button2.Text = "Submit Word";
             button2.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // button1
             // 
-            textBox1.Location = new Point(162, 30);
-            textBox1.MaxLength = 1;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(33, 31);
-            textBox1.TabIndex = 2;
+            button1.Location = new Point(6, 30);
+            button1.Name = "button1";
+            button1.Size = new Size(144, 34);
+            button1.TabIndex = 0;
+            button1.Text = "Submit Letter";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
-            // textBox2
+            // label2
             // 
-            textBox2.Location = new Point(162, 73);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(150, 31);
-            textBox2.TabIndex = 3;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(341, 229);
-            label1.Name = "label1";
-            label1.Size = new Size(119, 25);
-            label1.TabIndex = 0;
-            label1.Text = "Word Length:";
+            label2.AutoSize = true;
+            label2.Location = new Point(6, 229);
+            label2.Name = "label2";
+            label2.Size = new Size(72, 25);
+            label2.TabIndex = 1;
+            label2.Text = "Missed:";
+            label2.Click += label2_Click;
             // 
             // Form1
             // 
@@ -135,6 +148,7 @@
             MaximizeBox = false;
             Name = "Form1";
             Text = "Hangman Game";
+            Load += Form1_Load;
             groupBox1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
@@ -154,5 +168,6 @@
         private Button button2;
         private TextBox textBox2;
         private Label label1;
+        private Label label2;
     }
 }
