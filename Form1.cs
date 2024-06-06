@@ -14,6 +14,7 @@ namespace Hangman
     public partial class Form1 : Form
     {
         //This boolean will track whether the post has been drawn
+        private int incorrectGuesses = 0;
         private bool postDrawn = false;
         private bool bodyPartsDrawn = false;
         string word = "";
@@ -173,6 +174,16 @@ namespace Hangman
 
         }
 
+        // Method to check if the game is over
+        private void CheckGameOver()
+        {
+            if (incorrectGuesses >= 6) // If 6 or more incorrect guesses
+            {
+                MessageBox.Show("Game Over! The word was " + word, "Game Over", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // You may want to reset the game here
+            }
+        }
+
         //matching a letter with randomly generated word
         private void button1_Click(object sender, EventArgs e)
         {
@@ -201,6 +212,8 @@ namespace Hangman
                 DrawBodyPart((BodyParts)amount);
                 amount++;
 
+                incorrectGuesses++; // Increment incorrect guesses
+                CheckGameOver(); // Check if the game is over
             }
         }
 
